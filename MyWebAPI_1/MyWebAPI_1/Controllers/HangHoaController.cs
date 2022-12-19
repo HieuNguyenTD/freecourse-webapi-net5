@@ -67,7 +67,7 @@ namespace MyWebAPI_1.Controllers
                 {
                     return NotFound();
                 }
-
+          
                 if (id != hangHoa.MaHangHoa.ToString())
                 {
                     return BadRequest();
@@ -76,6 +76,7 @@ namespace MyWebAPI_1.Controllers
                 hangHoa.DonGia = hanghoaEdit.DonGia;
                 hangHoa.TenHangHoa = hanghoaEdit.TenHangHoa;
                 return Ok(hangHoa);
+                //Test X
             }
             catch
             {
@@ -95,8 +96,6 @@ namespace MyWebAPI_1.Controllers
                     return NotFound();
                 }
 
-                //command 2
-                Console.WriteLine();
                 if (id != hangHoa.MaHangHoa.ToString())
                 {
                     return BadRequest();
