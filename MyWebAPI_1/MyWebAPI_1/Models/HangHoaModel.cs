@@ -12,7 +12,7 @@ namespace MyWebAPI_1.Models
 
     }
 
-    public class HangHoa : HangHoaVM
+    public class HangHoaModel : HangHoaVM
     {
         public Guid MaHangHoa { get; set; }
 
