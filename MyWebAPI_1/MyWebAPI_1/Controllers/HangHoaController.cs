@@ -95,6 +95,7 @@ namespace MyWebAPI_1.Controllers
                     return NotFound();
                 }
 
+                //command
                 if (id != hangHoa.MaHangHoa.ToString())
                 {
                     return BadRequest();
