@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebAPI_1.Data;
 using MyWebAPI_1.Models;
@@ -22,8 +23,15 @@ namespace MyWebAPI_1.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var dsLoai = _context.Loais.ToList();
-            return Ok(dsLoai);
+            try
+            {
+                var dsLoai = _context.Loais.ToList();
+                return Ok(dsLoai);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}")]
@@ -50,6 +58,7 @@ namespace MyWebAPI_1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreateNew(LoaiModel model)
         {
             try
@@ -61,7 +70,8 @@ namespace MyWebAPI_1.Controllers
 
                 _context.Add(loai);
                 _context.SaveChanges();
-                return Ok(loai);
+                //return Ok(loai);
+                return StatusCode(StatusCodes.Status201Created, loai);
             }
             catch(Exception ex)
             {
@@ -80,6 +90,26 @@ namespace MyWebAPI_1.Controllers
                     loai.TenLoai = loaiModel.TenLoai;
                     _context.SaveChanges();
                     return NoContent();
+                }
+                else return NotFound();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteLoaiByID(int id)
+        {
+            try
+            {
+                var loai = _context.Loais.SingleOrDefault(o => o.MaLoai == id);
+                if (loai != null)
+                {
+                    _context.Remove(loai);
+                    _context.SaveChanges();
+                    return StatusCode(StatusCodes.Status200OK);
                 }
                 else return NotFound();
             }
