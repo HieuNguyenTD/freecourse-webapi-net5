@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyWebAPI_1.Data;
+using MyWebAPI_1.Models;
 using MyWebAPI_1.Services;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ namespace MyWebAPI_1
             //services.AddScoped<ILoaiRepository, LoaiRepository>();
             services.AddScoped<ILoaiRepository, LoaiReposotpryInMemory>();
             services.AddScoped<IHangHoaRepository, HangHoaRepository>();
+
+            services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
             var secretKey = Configuration["AppSettings:SecretKey"];
             var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
@@ -79,6 +82,9 @@ namespace MyWebAPI_1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseAuthorization();
 
